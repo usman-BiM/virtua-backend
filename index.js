@@ -9,6 +9,9 @@ async function main() {
   let ethPayment = await paymentListeners.ethPaymentEvents();
   let tokenPayment = await paymentListeners.tokenPaymentEvents();
   let soldEvents = await managerListeners.landSoldEvent();
+  console.log("--------- ethPayment ----------");
+  // console.log(ethPayment);
+  console.log("--------- ethPayment ----------");
 
   const accumulatedValues = await accumulateEvents(
     ethPayment,
@@ -28,6 +31,9 @@ async function accumulateEvents(ethPayments, tvkPayments, solds) {
       if (solds[i].returnValues.landId == tvkPayments[j].returnValues._landId) {
         tvkPayments[j].returnValues["_tokenId"] = solds[i].returnValues.tokenId;
         tvkPayments[j].returnValues["_paymentType"] = "TVK";
+        tvkPayments[j].returnValues["transactionHash"] =
+          tvkPayments[j].transactionHash;
+
         accumulatedValues.push(tvkPayments[j].returnValues);
       }
     }
@@ -35,6 +41,8 @@ async function accumulateEvents(ethPayments, tvkPayments, solds) {
       if (solds[i].returnValues.landId == ethPayments[j].returnValues._landId) {
         ethPayments[j].returnValues["_tokenId"] = solds[i].returnValues.tokenId;
         ethPayments[j].returnValues["_paymentType"] = "ETH";
+        ethPayments[j].returnValues["transactionHash"] =
+          ethPayments[j].transactionHash;
         accumulatedValues.push(ethPayments[j].returnValues);
       }
     }
