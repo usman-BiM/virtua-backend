@@ -9,9 +9,6 @@ async function main() {
   let ethPayment = await paymentListeners.ethPaymentEvents();
   let tokenPayment = await paymentListeners.tokenPaymentEvents();
   let soldEvents = await managerListeners.landSoldEvent();
-  console.log("--------- ethPayment ----------");
-  // console.log(ethPayment);
-  console.log("--------- ethPayment ----------");
 
   const accumulatedValues = await accumulateEvents(
     ethPayment,
